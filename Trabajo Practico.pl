@@ -22,12 +22,17 @@ usuario(chamaleon, unosAmbientes, unjardin, unosMetrosCubicos) :-
 usuario(chamaleon, unosAmbientes, unjardin, unosMetrosCubicos) :-
   usuario(pedro, unosAmbientes, unjardin, unosMetrosCubicos).
 
-cumpleConCaracteristica(Propiedad, Caracteristica) :-
-  Propiedad(_, Ambientes, Jardin, Piscina),
-  Caracteristica(Ambientes, Jardin, Piscina).
+%cumpleConCaracteristica(Propiedad, Caracteristica) :-
+%  Propiedad(_, Ambientes, Jardin, Piscina),
+%  Caracteristica(Ambientes, Jardin, Piscina).
 
-cumpleConCaracteristica(Propiedad, Caracteristica) :-
-  Propiedad(_, Ambientes, Jardin, Piscina),
-  Caracteristica(Ambientes2, Jardin, Piscina2),
-  Ambientes2 >= Ambientes,
-  Piscina2 >= Piscina.
+%cumpleConCaracteristica(Propiedad, Caracteristica) :-
+%  Propiedad(_, Ambientes, Jardin, Piscina),
+%  Caracteristica(Ambientes2, Jardin, Piscina2),
+%  Ambientes2 >= Ambientes,
+%  Piscina2 >= Piscina.
+
+tienenMismasCaracteristicas(Nombre1, UnosAmbientes, UnJardin, UnaPiscina) :-
+  propiedad(Nombre1, UnosAmbientes, UnJardin, UnaPiscina),
+  propiedad(_, UnosAmbientes, UnJardin, UnaPiscina).
+  %Nombre1 \= Nombre2.
