@@ -1,10 +1,12 @@
 %%%%%%%%%%%%%%%%%%   PROPIEDADES   %%%%%%%%%%%%%%%%%%
 %(nombre, ambientes, jardín?, metros cubicos de la piscina)
 %Los precios no importan? (700/ 2000/ 1000/ 200)
-propiedad(tinsmithCircle1774, 3, si, 0).
-propiedad(avMoreno708, 7, si, 30).
-propiedad(avSiempreViva742, 4, si, 0).
-propiedad(calleFalsa123, 3, no, 0).
+
+propiedad(tinsmith_Circle_1774, 3, si, 0).
+propiedad(av_Moreno_708, 7, si, 30).
+propiedad(av_Siempre_Viva_742, 4, si, 0).
+propiedad(calle_Falsa_123, 3, no, 0).
+
 
 %%%%%%%%%%%%%%%%%%   USUARIOS   %%%%%%%%%%%%%%%%%%
 usuario(carlos, 3, si, _).
@@ -22,6 +24,14 @@ usuario(chamaleon, unosAmbientes, unjardin, unosMetrosCubicos) :-
 usuario(chamaleon, unosAmbientes, unjardin, unosMetrosCubicos) :-
   usuario(pedro, unosAmbientes, unjardin, unosMetrosCubicos).
 
+<<<<<<< HEAD
+=======
+compararAmbiente(Nombre1, UnosAmbientes, UnJardin, UnosMetrosCubicos) :-
+  propiedad(Nombre1, UnosAmbientes, UnJardin, UnosMetrosCubicos),
+  propiedad(Nombre2, UnosAmbientes, _, _),
+  Nombre1 \= Nombre2.
+
+>>>>>>> master
 %cumpleConCaracteristica(Propiedad, Caracteristica) :-
 %  Propiedad(_, Ambientes, Jardin, Piscina),
 %  Caracteristica(Ambientes, Jardin, Piscina).
@@ -31,8 +41,11 @@ usuario(chamaleon, unosAmbientes, unjardin, unosMetrosCubicos) :-
 %  Caracteristica(Ambientes2, Jardin, Piscina2),
 %  Ambientes2 >= Ambientes,
 %  Piscina2 >= Piscina.
+<<<<<<< HEAD
 
 tienenMismasCaracteristicas(Nombre1, UnosAmbientes, UnJardin, UnaPiscina) :-
   propiedad(Nombre1, UnosAmbientes, UnJardin, UnaPiscina),
   propiedad(_, UnosAmbientes, UnJardin, UnaPiscina).
   %Nombre1 \= Nombre2.
+=======
+>>>>>>> master
