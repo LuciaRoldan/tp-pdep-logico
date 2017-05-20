@@ -1,6 +1,4 @@
 %%%%%%%%%%%%%%%%%%   PROPIEDADES   %%%%%%%%%%%%%%%%%%
-%(nombre, ambientes, jardín?, metros cubicos de la piscina)
-%Los precios no importan? (700/ 2000/ 1000/ 200)
 
 propiedad(tinsmith_Circle_1774, 3, si, 0).
 propiedad(av_Moreno_708, 7, si, 30).
@@ -28,6 +26,8 @@ usuario(chamaleon, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
 %usuario(chamaleon, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
 %  usuario(Nombre, UnosAmbientes, Unjardin, UnosMetrosCubicos),
 %  Nombre \= chamaleon.
+
+%%%%%%%%%%%%%%%%%%   CONSULTAS   %%%%%%%%%%%%%%%%%%
 
 
 compararAmbiente(Nombre1, UnosAmbientes, UnJardin, UnosMetrosCubicos) :-
@@ -60,12 +60,16 @@ queSeDesea(NombrePropiedad, NombrePersona, _, Jardin, _):-
   usuario(NombrePersona, _, Jardin, _),
   propiedad(NombrePropiedad, _, Jardin, _).
 
-%cumpleConCaracteristica(Propiedad, Caracteristica) :-
-%  Propiedad(_, Ambientes, Jardin, Piscina),
-%  Caracteristica(Ambientes, Jardin, Piscina).
 
-%cumpleConCaracteristica(Propiedad, Caracteristica) :-
-%  Propiedad(_, Ambientes, Jardin, Piscina),
-%  Caracteristica(Ambientes2, Jardin, Piscina2),
-%  Ambientes2 >= Ambientes,
-%  Piscina2 >= Piscina.
+noCumple(NombrePropiedad, NombrePersona, AmbientesBuscados, _, _):-
+  usuario(NombrePersona, AmbientesBuscados, _, _),
+  propiedad(NombrePropiedad, AmbientesEncontrados, _, _),
+  AmbientesEncontrados < AmbientesBuscados.
+noCumple(NombrePropiedad, NombrePersona, _, _, MetrosCubicosBuscados):-
+  usuario(NombrePersona, _, _, MetrosCubicosBuscados),
+  propiedad(NombrePropiedad, _, _, MetrosCubicosEncontrados),
+  MetrosCubicosEncontrados < MetrosCubicosBuscados.
+noCumple(NombrePropiedad, NombrePersona, _, JardinBuscado, _):-
+  usuario(NombrePersona, _, JardinBuscado, _),
+  propiedad(NombrePropiedad, _, JardinEncontrado, _),
+  JardinBuscado \= JardinEncontrado.
