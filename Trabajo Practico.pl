@@ -7,9 +7,8 @@ propiedad(av_Moreno_708, 7, si, 30).
 propiedad(av_Siempre_Viva_742, 4, si, 0).
 propiedad(calle_Falsa_123, 3, no, 0).
 
-
 %%%%%%%%%%%%%%%%%%   USUARIOS   %%%%%%%%%%%%%%%%%%
-usuario(carlos, 3, si, 0).
+usuario(carlos, 3, si, 100).
 usuario(ana, 0, _, 100).
 usuario(maria, 2, _, 15).
 usuario(pedro, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
@@ -41,15 +40,24 @@ cumpleConCaracteristica(Nombre, AmbientesBuscados, Jardin, MetrosCubicosBuscados
   MetrosCubicosPosta >= MetrosCubicosBuscados.
 
 
-cumpleConCaracteristica2(NombrePropiedad, NombrePersona) :-
+cumpleConCaracteristica(NombrePropiedad, NombrePersona) :-
   usuario(NombrePersona, AmbientesBuscados, Jardin, MetrosCubicosBuscados),
   propiedad(NombrePropiedad, AmbientesPosta, Jardin, MetrosCubicosPosta),
   AmbientesPosta >= AmbientesBuscados,
   MetrosCubicosPosta >= MetrosCubicosBuscados.
 
-cumpleConCaracteristica3(propiedad(NombrePropiedad, AmbientesPosta, Jardin, MetrosCubicosPosta), usuario(NombrePersona, AmbientesBuscados, Jardin, MetrosCubicosBuscados)) :-
-  AmbientesPosta >= AmbientesBuscados,
-  MetrosCubicosPosta >= MetrosCubicosBuscados.
+queSeDesea(NombrePropiedad, NombrePersona, Ambientes, Jardin, MetrosCubicos):-
+  usuario(NombrePersona, Ambientes, Jardin, MetrosCubicos),
+  propiedad(NombrePropiedad, Ambientesp, Jardinp, MetrosCubicosp),
+  Ambientes =< Ambientesp.
+queSeDesea(NombrePropiedad, NombrePersona, Ambientes, Jardin, MetrosCubicos):-
+  usuario(NombrePersona, Ambientes, Jardin, MetrosCubicos),
+  propiedad(NombrePropiedad, Ambientesp, Jardinp, MetrosCubicosp),
+  MetrosCubicos =< MetrosCubicosp.
+queSeDesea(NombrePropiedad, NombrePersona, Ambientes, Jardin, MetrosCubicos):-
+  usuario(NombrePersona, Ambientes, Jardin, MetrosCubicos),
+  propiedad(NombrePropiedad, Ambientesp, Jardin, MetrosCubicosp).
+
 
 %cumpleConCaracteristica(Propiedad, Caracteristica) :-
 %  Propiedad(_, Ambientes, Jardin, Piscina),
