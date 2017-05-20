@@ -9,8 +9,8 @@ propiedad(calle_Falsa_123, 3, no, 0).
 
 %%%%%%%%%%%%%%%%%%   USUARIOS   %%%%%%%%%%%%%%%%%%
 usuario(carlos, 3, si, 0).
-usuario(ana, 0, _, 100).
-usuario(maria, 2, _, 15).
+usuario(ana, 0, no, 100).
+usuario(maria, 2, no, 15).
 usuario(pedro, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
   usuario(maria, UnosAmbientes, Unjardin, UnosMetrosCubicos).
 %Chamaleon:
@@ -22,10 +22,6 @@ usuario(chamaleon, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
   usuario(ana, UnosAmbientes, Unjardin, UnosMetrosCubicos).
 usuario(chamaleon, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
   usuario(pedro, UnosAmbientes, Unjardin, UnosMetrosCubicos).
-
-%Chameleon2
-usuario(chamaleon, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
-  usuario(_, UnosAmbientes, Unjardin, UnosMetrosCubicos).
 
 
 compararAmbiente(Nombre1, UnosAmbientes, UnJardin, UnosMetrosCubicos) :-
@@ -57,7 +53,6 @@ queSeDesea(NombrePropiedad, NombrePersona, Ambientes, Jardin, MetrosCubicos):-
 queSeDesea(NombrePropiedad, NombrePersona, Ambientes, Jardin, MetrosCubicos):-
   usuario(NombrePersona, _, Jardin, _),
   propiedad(NombrePropiedad, _, Jardin, _).
-
 
 %cumpleConCaracteristica(Propiedad, Caracteristica) :-
 %  Propiedad(_, Ambientes, Jardin, Piscina),
