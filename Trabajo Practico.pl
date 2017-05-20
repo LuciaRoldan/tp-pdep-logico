@@ -35,11 +35,11 @@ compararAmbiente(Nombre1, UnosAmbientes, UnJardin, UnosMetrosCubicos) :-
   propiedad(Nombre2, UnosAmbientes, _, _),
   Nombre1 \= Nombre2.
 
-caracteristicaMinima(0, 0).
+%caracteristicaMinima(0, 0).
 
 cumpleConCaracteristica(Nombre, AmbientesBuscados, Jardin, MetrosCubicosBuscados) :-
   propiedad(Nombre, AmbientesPosta, Jardin, MetrosCubicosPosta),
-  caracteristicaMinima(AmbientesBuscados, MetrosCubicosBuscados),
+%  caracteristicaMinima(AmbientesBuscados, MetrosCubicosBuscados),
   AmbientesPosta >= AmbientesBuscados,
   MetrosCubicosPosta >= MetrosCubicosBuscados.
 
