@@ -8,7 +8,7 @@ propiedad(av_Siempre_Viva_742, 4, si, 0).
 propiedad(calle_Falsa_123, 3, no, 0).
 
 %%%%%%%%%%%%%%%%%%   USUARIOS   %%%%%%%%%%%%%%%%%%
-usuario(carlos, 3, si, 100).
+usuario(carlos, 3, si, 0).
 usuario(ana, 0, _, 100).
 usuario(maria, 2, _, 15).
 usuario(pedro, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
@@ -47,16 +47,16 @@ cumpleConCaracteristica(NombrePropiedad, NombrePersona) :-
   MetrosCubicosPosta >= MetrosCubicosBuscados.
 
 queSeDesea(NombrePropiedad, NombrePersona, Ambientes, Jardin, MetrosCubicos):-
-  usuario(NombrePersona, Ambientes, Jardin, MetrosCubicos),
-  propiedad(NombrePropiedad, Ambientesp, Jardinp, MetrosCubicosp),
+  usuario(NombrePersona, Ambientes, _, _),
+  propiedad(NombrePropiedad, Ambientesp, _, _),
   Ambientes =< Ambientesp.
 queSeDesea(NombrePropiedad, NombrePersona, Ambientes, Jardin, MetrosCubicos):-
-  usuario(NombrePersona, Ambientes, Jardin, MetrosCubicos),
-  propiedad(NombrePropiedad, Ambientesp, Jardinp, MetrosCubicosp),
+  usuario(NombrePersona, _, _, MetrosCubicos),
+  propiedad(NombrePropiedad, _, _, MetrosCubicosp),
   MetrosCubicos =< MetrosCubicosp.
 queSeDesea(NombrePropiedad, NombrePersona, Ambientes, Jardin, MetrosCubicos):-
-  usuario(NombrePersona, Ambientes, Jardin, MetrosCubicos),
-  propiedad(NombrePropiedad, Ambientesp, Jardin, MetrosCubicosp).
+  usuario(NombrePersona, _, Jardin, _),
+  propiedad(NombrePropiedad, _, Jardin, _).
 
 
 %cumpleConCaracteristica(Propiedad, Caracteristica) :-
