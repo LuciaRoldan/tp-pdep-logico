@@ -60,16 +60,14 @@ queSeDesea(NombrePropiedad, NombrePersona, _, Jardin, _):-
   usuario(NombrePersona, _, Jardin, _),
   propiedad(NombrePropiedad, _, Jardin, _).
 
-
-noCumple(NombrePropiedad, NombrePersona, AmbientesBuscados, _, _):-
+noCumple(NombrePersona, AmbientesBuscados, _, _):-
   usuario(NombrePersona, AmbientesBuscados, _, _),
-  propiedad(NombrePropiedad, AmbientesEncontrados, _, _),
-  AmbientesEncontrados < AmbientesBuscados.
-noCumple(NombrePropiedad, NombrePersona, _, _, MetrosCubicosBuscados):-
+  not(cumpleConCaracteristica(_, AmbientesBuscados, _, 0)).
+
+noCumple(NombrePersona, _, Jardin, _):-
+  usuario(NombrePersona, _, Jardin, _),
+  not(cumpleConCaracteristica(_, 0, Jardin, 0)).
+
+noCumple(NombrePersona, _, _, MetrosCubicosBuscados):-
   usuario(NombrePersona, _, _, MetrosCubicosBuscados),
-  propiedad(NombrePropiedad, _, _, MetrosCubicosEncontrados),
-  MetrosCubicosEncontrados < MetrosCubicosBuscados.
-noCumple(NombrePropiedad, NombrePersona, _, JardinBuscado, _):-
-  usuario(NombrePersona, _, JardinBuscado, _),
-  propiedad(NombrePropiedad, _, JardinEncontrado, _),
-  JardinBuscado \= JardinEncontrado.
+  not(cumpleConCaracteristica(_, 0, _, MetrosCubicosBuscados)).
