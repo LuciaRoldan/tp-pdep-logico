@@ -35,9 +35,11 @@ compararAmbiente(Nombre1, UnosAmbientes, UnJardin, UnosMetrosCubicos) :-
   propiedad(Nombre2, UnosAmbientes, _, _),
   Nombre1 \= Nombre2.
 
+caracteristicaMinima(0, 0).
 
 cumpleConCaracteristica(Nombre, AmbientesBuscados, Jardin, MetrosCubicosBuscados) :-
   propiedad(Nombre, AmbientesPosta, Jardin, MetrosCubicosPosta),
+  caracteristicaMinima(AmbientesBuscados, MetrosCubicosBuscados),
   AmbientesPosta >= AmbientesBuscados,
   MetrosCubicosPosta >= MetrosCubicosBuscados.
 
@@ -63,11 +65,9 @@ queSeDesea(NombrePropiedad, NombrePersona, _, Jardin, _):-
 noCumple(NombrePersona, AmbientesBuscados, _, _):-
   usuario(NombrePersona, AmbientesBuscados, _, _),
   not(cumpleConCaracteristica(_, AmbientesBuscados, _, 0)).
-
 noCumple(NombrePersona, _, Jardin, _):-
   usuario(NombrePersona, _, Jardin, _),
   not(cumpleConCaracteristica(_, 0, Jardin, 0)).
-
 noCumple(NombrePersona, _, _, MetrosCubicosBuscados):-
   usuario(NombrePersona, _, _, MetrosCubicosBuscados),
   not(cumpleConCaracteristica(_, 0, _, MetrosCubicosBuscados)).
