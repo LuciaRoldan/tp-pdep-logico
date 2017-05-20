@@ -14,15 +14,21 @@ usuario(maria, 2, no, 15).
 usuario(pedro, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
   usuario(maria, UnosAmbientes, Unjardin, UnosMetrosCubicos).
 
-
-<<<<<<< HEAD
-%Chameleon2
+%Chameleon Repitelogica
 usuario(chamaleon, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
-  usuario(Nombre, UnosAmbientes, Unjardin, UnosMetrosCubicos),
-  Nombre \= chamaleon.
+  usuario(carlos, UnosAmbientes, Unjardin, UnosMetrosCubicos).
+usuario(chamaleon, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
+  usuario(ana, UnosAmbientes, Unjardin, UnosMetrosCubicos).
+usuario(chamaleon, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
+  usuario(maria, UnosAmbientes, Unjardin, UnosMetrosCubicos).
+usuario(chamaleon, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
+  usuario(pedro, UnosAmbientes, Unjardin, UnosMetrosCubicos).
 
-=======
->>>>>>> master
+%Chameleon Infinito
+%usuario(chamaleon, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
+%  usuario(Nombre, UnosAmbientes, Unjardin, UnosMetrosCubicos),
+%  Nombre \= chamaleon.
+
 
 compararAmbiente(Nombre1, UnosAmbientes, UnJardin, UnosMetrosCubicos) :-
   propiedad(Nombre1, UnosAmbientes, UnJardin, UnosMetrosCubicos),
