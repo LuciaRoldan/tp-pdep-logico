@@ -15,11 +15,14 @@ usuario(pedro, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
   usuario(maria, UnosAmbientes, Unjardin, UnosMetrosCubicos).
 
 
+<<<<<<< HEAD
 %Chameleon2
 usuario(chamaleon, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
   usuario(Nombre, UnosAmbientes, Unjardin, UnosMetrosCubicos),
   Nombre \= chamaleon.
 
+=======
+>>>>>>> master
 
 compararAmbiente(Nombre1, UnosAmbientes, UnJardin, UnosMetrosCubicos) :-
   propiedad(Nombre1, UnosAmbientes, UnJardin, UnosMetrosCubicos),
@@ -50,7 +53,6 @@ queSeDesea(NombrePropiedad, NombrePersona, _, _, MetrosCubicos):-
 queSeDesea(NombrePropiedad, NombrePersona, _, Jardin, _):-
   usuario(NombrePersona, _, Jardin, _),
   propiedad(NombrePropiedad, _, Jardin, _).
-
 
 %cumpleConCaracteristica(Propiedad, Caracteristica) :-
 %  Propiedad(_, Ambientes, Jardin, Piscina),
