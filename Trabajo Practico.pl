@@ -9,23 +9,16 @@ propiedad(calle_Falsa_123, 3, no, 0).
 
 %%%%%%%%%%%%%%%%%%   USUARIOS   %%%%%%%%%%%%%%%%%%
 usuario(carlos, 3, si, 0).
-usuario(ana, 0, _, 100).
-usuario(maria, 2, _, 15).
+usuario(ana, 0, no, 100).
+usuario(maria, 2, no, 15).
 usuario(pedro, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
   usuario(maria, UnosAmbientes, Unjardin, UnosMetrosCubicos).
-%Chamaleon:
-usuario(chamaleon, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
-  usuario(maria, UnosAmbientes, Unjardin, UnosMetrosCubicos).
-usuario(chamaleon, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
-  usuario(carlos, UnosAmbientes, Unjardin, UnosMetrosCubicos).
-usuario(chamaleon, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
-  usuario(ana, UnosAmbientes, Unjardin, UnosMetrosCubicos).
-usuario(chamaleon, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
-  usuario(pedro, UnosAmbientes, Unjardin, UnosMetrosCubicos).
+
 
 %Chameleon2
 usuario(chamaleon, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
-  usuario(_, UnosAmbientes, Unjardin, UnosMetrosCubicos).
+  usuario(Nombre, UnosAmbientes, Unjardin, UnosMetrosCubicos),
+  Nombre \= chamaleon.
 
 
 compararAmbiente(Nombre1, UnosAmbientes, UnJardin, UnosMetrosCubicos) :-
@@ -46,15 +39,15 @@ cumpleConCaracteristica(NombrePropiedad, NombrePersona) :-
   AmbientesPosta >= AmbientesBuscados,
   MetrosCubicosPosta >= MetrosCubicosBuscados.
 
-queSeDesea(NombrePropiedad, NombrePersona, Ambientes, Jardin, MetrosCubicos):-
+queSeDesea(NombrePropiedad, NombrePersona, Ambientes, _, _):-
   usuario(NombrePersona, Ambientes, _, _),
   propiedad(NombrePropiedad, Ambientesp, _, _),
   Ambientes =< Ambientesp.
-queSeDesea(NombrePropiedad, NombrePersona, Ambientes, Jardin, MetrosCubicos):-
+queSeDesea(NombrePropiedad, NombrePersona, _, _, MetrosCubicos):-
   usuario(NombrePersona, _, _, MetrosCubicos),
   propiedad(NombrePropiedad, _, _, MetrosCubicosp),
   MetrosCubicos =< MetrosCubicosp.
-queSeDesea(NombrePropiedad, NombrePersona, Ambientes, Jardin, MetrosCubicos):-
+queSeDesea(NombrePropiedad, NombrePersona, _, Jardin, _):-
   usuario(NombrePersona, _, Jardin, _),
   propiedad(NombrePropiedad, _, Jardin, _).
 
