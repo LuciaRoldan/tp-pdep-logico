@@ -1,73 +1,58 @@
 %%%%%%%%%%%%%%%%%%   PROPIEDADES   %%%%%%%%%%%%%%%%%%
 
-propiedad(tinsmith_Circle_1774, 3, si, 0).
-propiedad(av_Moreno_708, 7, si, 30).
-propiedad(av_Siempre_Viva_742, 4, si, 0).
-propiedad(calle_Falsa_123, 3, no, 0).
+precio(tinsmith_Circle_1774,700).
+precio(av_Moreno_708,2000).
+precio(av_Siempre_Viva_742,1000).
+precio(calle_Falsa_123,200).
+
+tiene(tinsmith_Circle_1774,ambientes(3)).
+tiene(tinsmith_Circle_1774,jardin).
+tiene(av_Moreno_708,ambientes(7)).
+tiene(av_Moreno_708,jardin).
+tiene(av_Moreno_708,metrosCubicos(30)).
+tiene(av_Siempre_Viva_742,ambientes(4)).
+tiene(av_Siempre_Viva_742,jardin).
+tiene(calle_Falsa_123,ambientes(3)).
 
 %%%%%%%%%%%%%%%%%%   USUARIOS   %%%%%%%%%%%%%%%%%%
-usuario(carlos, 3, si, 0).
-usuario(ana, 0, no, 100).
-usuario(maria, 2, no, 15).
-usuario(pedro, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
-  usuario(maria, UnosAmbientes, Unjardin, UnosMetrosCubicos).
 
-%Chameleon Repitelogica
-usuario(chamaleon, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
-  usuario(carlos, UnosAmbientes, Unjardin, UnosMetrosCubicos).
-usuario(chamaleon, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
-  usuario(ana, UnosAmbientes, Unjardin, UnosMetrosCubicos).
-usuario(chamaleon, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
-  usuario(maria, UnosAmbientes, Unjardin, UnosMetrosCubicos).
-usuario(chamaleon, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
-  usuario(pedro, UnosAmbientes, Unjardin, UnosMetrosCubicos).
+quiere(carlos,ambientes(3)).
+quiere(carlos, jardin).
+quiere(ana,metrosCubicos(100)).
+quiere(maria,ambientes(2)).
+quiere(maria,metrosCubicos(15)).
+quiere(pedro,Caracteristica) :-
+  quiere(maria,Caracteristica).
 
-%Chameleon Infinito
-%usuario(chamaleon, UnosAmbientes, Unjardin, UnosMetrosCubicos) :-
-%  usuario(Nombre, UnosAmbientes, Unjardin, UnosMetrosCubicos),
-%  Nombre \= chamaleon.
+persona(Nombre) :- quiere(Nombre,_).
 
-%%%%%%%%%%%%%%%%%%   CONSULTAS   %%%%%%%%%%%%%%%%%%
+propiedad(Nombre) :- tiene(Nombre, _).
 
+caracteristica(Caracteristica) :- quiere(_, Caracteristica).
 
-compararAmbiente(Nombre1, UnosAmbientes, UnJardin, UnosMetrosCubicos) :-
-  propiedad(Nombre1, UnosAmbientes, UnJardin, UnosMetrosCubicos),
-  propiedad(Nombre2, UnosAmbientes, _, _),
-  Nombre1 \= Nombre2.
+%quiere(chamaleon,Caracteristica) :-
+%  Nombre \= chamaleon,
+%  persona(Nombre),
+%  quiere(Nombre,Caracteristica).
 
-%caracteristicaMinima(0, 0).
+%%%%%%%%%%%%%%%%%%      %%%%%%%%%%%%%%%%%%
 
-cumpleConCaracteristica(Nombre, AmbientesBuscados, Jardin, MetrosCubicosBuscados) :-
-  propiedad(Nombre, AmbientesPosta, Jardin, MetrosCubicosPosta),
-%  caracteristicaMinima(AmbientesBuscados, MetrosCubicosBuscados),
-  AmbientesPosta >= AmbientesBuscados,
-  MetrosCubicosPosta >= MetrosCubicosBuscados.
+cumpleConCaracteristica(Propiedad,Caracteristica) :- tiene(Propiedad,Caracteristica).
 
+cumpleConCaracteristica(Propiedad,ambientes(Cantidad)) :-
+  quiere(_,ambientes(Cantidad)),
+  tiene(Propiedad,ambientes(CantidadDeLaPropiedad)),
+  CantidadDeLaPropiedad >= Cantidad.
 
-cumpleConCaracteristica(NombrePropiedad, NombrePersona) :-
-  usuario(NombrePersona, AmbientesBuscados, Jardin, MetrosCubicosBuscados),
-  propiedad(NombrePropiedad, AmbientesPosta, Jardin, MetrosCubicosPosta),
-  AmbientesPosta >= AmbientesBuscados,
-  MetrosCubicosPosta >= MetrosCubicosBuscados.
+cumpleConCaracteristica(Propiedad,metrosCubicos(Cantidad)) :-
+  quiere(_,metrosCubicos(Cantidad)),
+  tiene(Propiedad, metrosCubicos(CantidadDeLaPropiedad)),
+  CantidadDeLaPropiedad >= Cantidad.
 
-queSeDesea(NombrePropiedad, NombrePersona, Ambientes, _, _):-
-  usuario(NombrePersona, Ambientes, _, _),
-  propiedad(NombrePropiedad, Ambientesp, _, _),
-  Ambientes =< Ambientesp.
-queSeDesea(NombrePropiedad, NombrePersona, _, _, MetrosCubicos):-
-  usuario(NombrePersona, _, _, MetrosCubicos),
-  propiedad(NombrePropiedad, _, _, MetrosCubicosp),
-  MetrosCubicos =< MetrosCubicosp.
-queSeDesea(NombrePropiedad, NombrePersona, _, Jardin, _):-
-  usuario(NombrePersona, _, Jardin, _),
-  propiedad(NombrePropiedad, _, Jardin, _).
+noCumple(Propiedad, Caracteristica) :-
+  caracteristica(Caracteristica),
+  not(cumpleConCaracteristica(Propiedad, Caracteristica)).
 
-noCumple(NombrePersona, AmbientesBuscados, _, _):-
-  usuario(NombrePersona, AmbientesBuscados, _, _),
-  not(cumpleConCaracteristica(_, AmbientesBuscados, _, 0)).
-noCumple(NombrePersona, _, Jardin, _):-
-  usuario(NombrePersona, _, Jardin, _),
-  not(cumpleConCaracteristica(_, 0, Jardin, 0)).
-noCumple(NombrePersona, _, _, MetrosCubicosBuscados):-
-  usuario(NombrePersona, _, _, MetrosCubicosBuscados),
-  not(cumpleConCaracteristica(_, 0, _, MetrosCubicosBuscados)).
+cumpleTodo(Cliente, Propiedad):-
+  %propiedad(Propiedad),
+  forall(quiere(Cliente, Caracteristica),cumpleConCaracteristica(Propiedad, Caracteristica)).
