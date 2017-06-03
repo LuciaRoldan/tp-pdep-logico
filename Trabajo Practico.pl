@@ -37,7 +37,8 @@ caracteristica(Caracteristica) :- quiere(_, Caracteristica).
 
 %%%%%%%%%%%%%%%%%%      %%%%%%%%%%%%%%%%%%
 
-cumpleConCaracteristica(Propiedad,Caracteristica) :- tiene(Propiedad,Caracteristica).
+cumpleConCaracteristica(Propiedad,Caracteristica) :-
+  tiene(Propiedad,Caracteristica).
 
 cumpleConCaracteristica(Propiedad,ambientes(Cantidad)) :-
   quiere(_,ambientes(Cantidad)),
@@ -57,3 +58,18 @@ cumpleTodo(Cliente, Propiedad):-
   propiedad(Propiedad),
   persona(Cliente),
   forall(quiere(Cliente, Caracteristica),cumpleConCaracteristica(Propiedad, Caracteristica)).
+
+%masBarata(Cliente, Propiedad) :-
+%  cumpleTodo(Cliente, Propiedad),
+%  mejorPrecio(Propiedad).
+
+%mejorPrecio(Propiedad) :-
+%  precio(Propiedad, Precio1),
+%  precio(OtraPropiedad, Precio2),
+%  Propiedad \= OtraPropiedad,
+%  Precio1 < Precio2.
+
+masBarata(Cliente, Propiedad) :-
+  propiedad(Propiedad),
+  cumpleTodo(Cliente, Propiedad),
+  forall((precio(OtraPropiedad, OtroPrecio), cumpleTodo(Cliente, OtraPropiedad)), (precio(Propiedad, Precio), Precio =< OtroPrecio)).
