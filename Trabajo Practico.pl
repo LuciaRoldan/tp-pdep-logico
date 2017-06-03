@@ -54,5 +54,6 @@ noCumple(Propiedad, Caracteristica) :-
   not(cumpleConCaracteristica(Propiedad, Caracteristica)).
 
 cumpleTodo(Cliente, Propiedad):-
-  %propiedad(Propiedad),
+  propiedad(Propiedad),
+  persona(Cliente),
   forall(quiere(Cliente, Caracteristica),cumpleConCaracteristica(Propiedad, Caracteristica)).
