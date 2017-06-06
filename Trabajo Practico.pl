@@ -1,20 +1,23 @@
 %%%%%%%%%%%%%%%%%%   PROPIEDADES   %%%%%%%%%%%%%%%%%%
 
-precio(tinsmith_Circle_1774,700).
-precio(av_Moreno_708,2000).
-precio(av_Siempre_Viva_742,1000).
-precio(calle_Falsa_123,200).
+precio(tinsmith_Circle_1774, 700).
+precio(av_Moreno_708, 2000).
+precio(av_Siempre_Viva_742, 1000).
+precio(calle_Falsa_123, 200).
 
-tiene(tinsmith_Circle_1774,ambientes(3)).
-tiene(tinsmith_Circle_1774,jardin).
-tiene(av_Moreno_708,ambientes(7)).
-tiene(av_Moreno_708,jardin).
-tiene(av_Moreno_708,metrosCubicos(30)).
-tiene(av_Siempre_Viva_742,ambientes(4)).
-tiene(av_Siempre_Viva_742,jardin).
-tiene(calle_Falsa_123,ambientes(3)).
+tiene(tinsmith_Circle_1774, ambientes(3)).
+tiene(tinsmith_Circle_1774, jardin).
+tiene(av_Moreno_708, ambientes(7)).
+tiene(av_Moreno_708, jardin).
+tiene(av_Moreno_708, metrosCubicos(30)).
+tiene(av_Siempre_Viva_742, ambientes(4)).
+tiene(av_Siempre_Viva_742, jardin).
+tiene(calle_Falsa_123, ambientes(3)).
+tiene(tinsmith_Circle_1774, instalaciones([aireAcondicionado, extractor, calefaccion(gas)])).
+tiene(av_Moreno_708, instalaciones([aireAcondicionado, extractor, calefaccion(lozaRadiante), vidriosDobles])).
+tiene(av_Siempre_Viva_742, instalaciones([calefaccion(gas)])).
 
-%%%%%%%%%%%%%%%%%%   USUARIOS   %%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%   USUARIOS   %%%%%%%%%%%%%%%%%%%%
 
 quiere(carlos,ambientes(3)).
 quiere(carlos, jardin).
@@ -23,19 +26,20 @@ quiere(maria,ambientes(2)).
 quiere(maria,metrosCubicos(15)).
 quiere(pedro,Caracteristica) :-
   quiere(maria,Caracteristica).
+quiere(ana, instalaciones([aireAcondicionado, vidriosDobles])).
+quiere(pedro, instalaciones([vidriosDobles, calefaccion(lozaRadiante)])).
 
-persona(Nombre) :- quiere(Nombre,_).
-
-propiedad(Nombre) :- tiene(Nombre, _).
-
-caracteristica(Caracteristica) :- quiere(_, Caracteristica).
 
 %quiere(chamaleon,Caracteristica) :-
 %  Nombre \= chamaleon,
 %  persona(Nombre),
 %  quiere(Nombre,Caracteristica).
 
-%%%%%%%%%%%%%%%%%%      %%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+persona(Nombre) :- quiere(Nombre,_).
+propiedad(Nombre) :- tiene(Nombre, _).
+caracteristica(Caracteristica) :- quiere(_, Caracteristica).
 
 cumpleConCaracteristica(Propiedad,Caracteristica) :-
   tiene(Propiedad,Caracteristica).
@@ -92,3 +96,20 @@ efectividad(Nivel) :-
   length(Satisfechos, CuantosSatisfechos),
   length(Clientes, CuantosClientes),
   Nivel is CuantosSatisfechos/CuantosClientes.
+
+esChica(Propiedad) :-
+  propiedad(Propiedad),
+  tiene(Propiedad, ambientes(1)).
+
+esChica(Propiedad) :-
+  propiedad(Propiedad),
+  not(tiene(Propiedad, ambientes(_))).
+
+tieneAire(Propiedad) :-
+  propiedad(Propiedad),
+  tiene(Propiedad, instalaciones(Instalaciones)),
+  member(aireAcondicionado, Instalaciones).
+
+propiedadesTop(PropiedadesTop) :-
+  findall(Propiedad, (not(esChica(Propiedad)), tieneAire(Propiedad)), PropiedadesTopRepetidas),
+  list_to_set(PropiedadesTopRepetidas, PropiedadesTop).
