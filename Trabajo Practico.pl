@@ -59,7 +59,7 @@ cumpleTodo(Cliente, Propiedad):-
   persona(Cliente),
   forall(quiere(Cliente, Caracteristica),cumpleConCaracteristica(Propiedad, Caracteristica)).
 
-%masBarata(Cliente, Propiedad) :-
+%mejorOpcion(Cliente, Propiedad) :-
 %  cumpleTodo(Cliente, Propiedad),
 %  mejorPrecio(Propiedad).
 
@@ -69,7 +69,26 @@ cumpleTodo(Cliente, Propiedad):-
 %  Propiedad \= OtraPropiedad,
 %  Precio1 < Precio2.
 
-masBarata(Cliente, Propiedad) :-
+mejorOpcion(Cliente, Propiedad) :-
   propiedad(Propiedad),
   cumpleTodo(Cliente, Propiedad),
   forall((precio(OtraPropiedad, OtroPrecio), cumpleTodo(Cliente, OtraPropiedad)), (precio(Propiedad, Precio), Precio =< OtroPrecio)).
+
+satisfecho(Cliente) :-
+  persona(Cliente),
+  cumpleTodo(Cliente,_).
+
+encontrarSatisfechos(SatisfechosSinRepetir) :-
+  findall(ClienteSatisfecho, satisfecho(ClienteSatisfecho), SatisfechosRepetidos),
+  list_to_set(SatisfechosRepetidos, SatisfechosSinRepetir).
+
+todosLosClientes(ClientesSinRepetir) :-
+  findall(Cliente, persona(Cliente), ClientesRepetidos),
+  list_to_set(ClientesRepetidos, ClientesSinRepetir).
+
+efectividad(Nivel) :-
+  encontrarSatisfechos(Satisfechos),
+  todosLosClientes(Clientes),
+  length(Satisfechos, CuantosSatisfechos),
+  length(Clientes, CuantosClientes),
+  Nivel is CuantosSatisfechos/CuantosClientes.
