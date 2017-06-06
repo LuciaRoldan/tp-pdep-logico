@@ -113,3 +113,20 @@ tieneAire(Propiedad) :-
 propiedadesTop(PropiedadesTop) :-
   findall(Propiedad, (not(esChica(Propiedad)), tieneAire(Propiedad)), PropiedadesTopRepetidas),
   list_to_set(PropiedadesTopRepetidas, PropiedadesTop).
+
+
+%%%%%%%%%%%%%%%%%%%%   BONUS   %%%%%%%%%%%%%%%%%%%%%%
+
+% Lo que se repite es el findall y el list_to_set
+
+encontrarSinRepetidos(ListaSinRepetir, Condicion) :-
+  findall(Elemento, call(Condicion, Elemento), ListaRepetida),
+  list_to_set(ListaRepetida, ListaSinRepetir).
+
+% Podemos crear nuevos encontrarSatisfechos y todosLosClientes
+
+nuevoEncontrarSatisfechos(Satisfechos) :-
+  encontrarSinRepetidos(Satisfechos, satisfecho).
+
+nuevoTodosLosClientes(Clientes) :-
+  encontrarSinRepetidos(Clientes, persona).
