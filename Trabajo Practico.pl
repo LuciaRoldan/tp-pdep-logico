@@ -30,6 +30,10 @@ quiere(ana, instalaciones([aireAcondicionado, vidriosDobles])).
 quiere(pedro, instalaciones([vidriosDobles, calefaccion(lozaRadiante)])).
 
 
+
+
+
+
 %quiere(chamaleon,Caracteristica) :-
 %  Nombre \= chamaleon,
 %  persona(Nombre),
@@ -53,6 +57,11 @@ cumpleConCaracteristica(Propiedad,metrosCubicos(Cantidad)) :-
   quiere(_,metrosCubicos(Cantidad)),
   tiene(Propiedad, metrosCubicos(CantidadDeLaPropiedad)),
   CantidadDeLaPropiedad >= Cantidad.
+
+cumpleConCaracteristica(Propiedad,instalaciones(UnasInstalaciones)) :-
+  quiere(_,instalaciones(UnasInstalaciones)),
+  tiene(Propiedad,instalaciones(OtrasInstalaciones)),
+  forall(member(Instalacion,UnasInstalaciones),member(Instalacion,OtrasInstalaciones)).
 
 noCumple(Propiedad, Caracteristica) :-
   caracteristica(Caracteristica),
@@ -86,13 +95,13 @@ encontrarSatisfechos(SatisfechosSinRepetir) :-
   findall(ClienteSatisfecho, satisfecho(ClienteSatisfecho), SatisfechosRepetidos),
   list_to_set(SatisfechosRepetidos, SatisfechosSinRepetir).
 
-todosLosClientes(ClientesSinRepetir) :-
+encontrarTodosLosClientes(ClientesSinRepetir) :-
   findall(Cliente, persona(Cliente), ClientesRepetidos),
   list_to_set(ClientesRepetidos, ClientesSinRepetir).
 
 efectividad(Nivel) :-
   encontrarSatisfechos(Satisfechos),
-  todosLosClientes(Clientes),
+  encontrarTodosLosClientes(Clientes),
   length(Satisfechos, CuantosSatisfechos),
   length(Clientes, CuantosClientes),
   Nivel is CuantosSatisfechos/CuantosClientes.
@@ -110,8 +119,12 @@ tieneAire(Propiedad) :-
   tiene(Propiedad, instalaciones(Instalaciones)),
   member(aireAcondicionado, Instalaciones).
 
+propiedadTop(Propiedad) :-
+  not(esChica(Propiedad)),
+  tieneAire(Propiedad).
+
 propiedadesTop(PropiedadesTop) :-
-  findall(Propiedad, (not(esChica(Propiedad)), tieneAire(Propiedad)), PropiedadesTopRepetidas),
+  findall(Propiedad, propiedadTop(Propiedad), PropiedadesTopRepetidas),
   list_to_set(PropiedadesTopRepetidas, PropiedadesTop).
 
 
@@ -123,10 +136,11 @@ encontrarSinRepetidos(ListaSinRepetir, Condicion) :-
   findall(Elemento, call(Condicion, Elemento), ListaRepetida),
   list_to_set(ListaRepetida, ListaSinRepetir).
 
-% Podemos crear nuevos encontrarSatisfechos y todosLosClientes
-
 nuevoEncontrarSatisfechos(Satisfechos) :-
   encontrarSinRepetidos(Satisfechos, satisfecho).
 
-nuevoTodosLosClientes(Clientes) :-
+nuevoEncontrarTodosLosClientes(Clientes) :-
   encontrarSinRepetidos(Clientes, persona).
+
+nuevopropiedadesTop(PropiedadesTop) :-
+  encontrarSinRepetidos(PropiedadesTop, propiedadTop).
