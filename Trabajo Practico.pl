@@ -30,10 +30,6 @@ quiere(ana, instalaciones([aireAcondicionado, vidriosDobles])).
 quiere(pedro, instalaciones([vidriosDobles, calefaccion(lozaRadiante)])).
 
 
-
-
-
-
 %quiere(chamaleon,Caracteristica) :-
 %  Nombre \= chamaleon,
 %  persona(Nombre),
@@ -72,20 +68,18 @@ cumpleTodo(Cliente, Propiedad):-
   persona(Cliente),
   forall(quiere(Cliente, Caracteristica),cumpleConCaracteristica(Propiedad, Caracteristica)).
 
-%mejorOpcion(Cliente, Propiedad) :-
-%  cumpleTodo(Cliente, Propiedad),
-%  mejorPrecio(Propiedad).
-
-%mejorPrecio(Propiedad) :-
-%  precio(Propiedad, Precio1),
-%  precio(OtraPropiedad, Precio2),
-%  Propiedad \= OtraPropiedad,
-%  Precio1 < Precio2.
-
 mejorOpcion(Cliente, Propiedad) :-
   propiedad(Propiedad),
   cumpleTodo(Cliente, Propiedad),
   forall((precio(OtraPropiedad, OtroPrecio), cumpleTodo(Cliente, OtraPropiedad)), (precio(Propiedad, Precio), Precio =< OtroPrecio)).
+
+
+mejorOpcion2(Cliente, Propiedad) :-
+  quiere(Cliente,_),
+  findall(Precio,(precio(Propiedad,Precio),cumpleTodo(Cliente,Propiedad)),Precios),
+  min_member(PrecioMinimo,Precios),
+  precio(Propiedad,PrecioMinimo).
+
 
 satisfecho(Cliente) :-
   persona(Cliente),
