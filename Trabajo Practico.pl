@@ -30,14 +30,18 @@ quiere(ana, instalaciones([aireAcondicionado, vidriosDobles])).
 quiere(pedro, instalaciones([vidriosDobles, calefaccion(lozaRadiante)])).
 
 
-%quiere(chamaleon,Caracteristica) :-
-%  Nombre \= chamaleon,
-%  persona(Nombre),
-%  quiere(Nombre,Caracteristica).
+quiere(chamaleon,Caracteristica) :-
+  persona(Nombre),
+  Nombre \= chamaleon,
+  quiere(Nombre,Caracteristica).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-persona(Nombre) :- quiere(Nombre,_).
+persona(carlos).
+persona(ana).
+persona(maria).
+persona(pedro).
+persona(chamaleon).
 propiedad(Nombre) :- tiene(Nombre, _).
 caracteristica(Caracteristica) :- quiere(_, Caracteristica).
 
