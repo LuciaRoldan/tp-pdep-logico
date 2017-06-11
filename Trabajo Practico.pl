@@ -9,7 +9,7 @@ tiene(tinsmith_Circle_1774, ambientes(3)).
 tiene(tinsmith_Circle_1774, jardin).
 tiene(av_Moreno_708, ambientes(7)).
 tiene(av_Moreno_708, jardin).
-tiene(av_Moreno_708, metrosCubicos(30)).
+tiene(av_Moreno_708, piscina(30)).
 tiene(av_Siempre_Viva_742, ambientes(4)).
 tiene(av_Siempre_Viva_742, jardin).
 tiene(calle_Falsa_123, ambientes(3)).
@@ -19,16 +19,21 @@ tiene(av_Siempre_Viva_742, instalaciones([calefaccion(gas)])).
 
 %%%%%%%%%%%%%%%%%%%   USUARIOS   %%%%%%%%%%%%%%%%%%%%
 
+persona(carlos).
+persona(ana).
+persona(maria).
+persona(pedro).
+persona(chamaleon).
+
 quiere(carlos,ambientes(3)).
 quiere(carlos, jardin).
-quiere(ana,metrosCubicos(100)).
+quiere(ana,piscina(100)).
 quiere(maria,ambientes(2)).
-quiere(maria,metrosCubicos(15)).
+quiere(maria,piscina(15)).
 quiere(pedro,Caracteristica) :-
   quiere(maria,Caracteristica).
 quiere(ana, instalaciones([aireAcondicionado, vidriosDobles])).
 quiere(pedro, instalaciones([vidriosDobles, calefaccion(lozaRadiante)])).
-
 
 quiere(chamaleon,Caracteristica) :-
   persona(Nombre),
@@ -37,11 +42,6 @@ quiere(chamaleon,Caracteristica) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-persona(carlos).
-persona(ana).
-persona(maria).
-persona(pedro).
-persona(chamaleon).
 propiedad(Nombre) :- tiene(Nombre, _).
 caracteristica(Caracteristica) :- quiere(_, Caracteristica).
 
@@ -49,23 +49,24 @@ cumpleConCaracteristica(Propiedad,Caracteristica) :-
   tiene(Propiedad,Caracteristica).
 
 cumpleConCaracteristica(Propiedad,ambientes(Cantidad)) :-
-  quiere(_,ambientes(Cantidad)),
+  caracteristica(ambientes(Cantidad)),
   tiene(Propiedad,ambientes(CantidadDeLaPropiedad)),
   CantidadDeLaPropiedad >= Cantidad.
 
-cumpleConCaracteristica(Propiedad,metrosCubicos(Cantidad)) :-
-  quiere(_,metrosCubicos(Cantidad)),
-  tiene(Propiedad, metrosCubicos(CantidadDeLaPropiedad)),
+cumpleConCaracteristica(Propiedad,piscina(Cantidad)) :-
+  caracteristica(piscina(Cantidad)),
+  tiene(Propiedad, piscina(CantidadDeLaPropiedad)),
   CantidadDeLaPropiedad >= Cantidad.
 
-cumpleConCaracteristica(Propiedad,instalaciones(UnasInstalaciones)) :-
-  quiere(_,instalaciones(UnasInstalaciones)),
-  tiene(Propiedad,instalaciones(OtrasInstalaciones)),
-  forall(member(Instalacion,UnasInstalaciones),member(Instalacion,OtrasInstalaciones)).
+cumpleConCaracteristica(Propiedad,instalaciones(InstalacionesBuscadas)) :-
+  %quiere(_,instalaciones(InstalacionesBuscadas)),
+  caracteristica(instalaciones([InstalacionesBuscadas])),
+  tiene(Propiedad,instalaciones(InstalacionesDeLaPropiedad)),
+  forall(member(Instalacion,InstalacionesBuscadas),member(Instalacion,InstalacionesDeLaPropiedad)).
 
-noCumple(Propiedad, Caracteristica) :-
+noCumple(_, Caracteristica) :-
   caracteristica(Caracteristica),
-  not(cumpleConCaracteristica(Propiedad, Caracteristica)).
+  not(cumpleConCaracteristica(_, Caracteristica)).
 
 cumpleTodo(Cliente, Propiedad):-
   propiedad(Propiedad),
@@ -75,51 +76,42 @@ cumpleTodo(Cliente, Propiedad):-
 mejorOpcion(Cliente, Propiedad) :-
   propiedad(Propiedad),
   cumpleTodo(Cliente, Propiedad),
-  forall((precio(OtraPropiedad, OtroPrecio), cumpleTodo(Cliente, OtraPropiedad)), (precio(Propiedad, Precio), Precio =< OtroPrecio)).
-
+  precio(Propiedad, Precio),
+  forall(cumpleTodo(Cliente, OtraPropiedad), (precio(OtraPropiedad, OtroPrecio), Precio =< OtroPrecio)).
 
 mejorOpcion2(Cliente, Propiedad) :-
-  quiere(Cliente,_),
-  findall(Precio,(precio(Propiedad,Precio),cumpleTodo(Cliente,Propiedad)),Precios),
-  min_member(PrecioMinimo,Precios),
-  precio(Propiedad,PrecioMinimo).
-
+  cumpleTodo(Cliente,Propiedad),
+  precio(Propiedad, PrecioDeLaPropiedad),
+  not((cumpleTodo(Cliente, OtraPropiedad), precio(OtraPropiedad, OtroPrecio), (OtroPrecio < PrecioDeLaPropiedad))).
 
 satisfecho(Cliente) :-
-  persona(Cliente),
   cumpleTodo(Cliente,_).
 
-encontrarSatisfechos(SatisfechosSinRepetir) :-
+satisfechos(SatisfechosSinRepetir) :-
   findall(ClienteSatisfecho, satisfecho(ClienteSatisfecho), SatisfechosRepetidos),
   list_to_set(SatisfechosRepetidos, SatisfechosSinRepetir).
 
-encontrarTodosLosClientes(ClientesSinRepetir) :-
+todosLosClientes(ClientesSinRepetir) :-
   findall(Cliente, persona(Cliente), ClientesRepetidos),
   list_to_set(ClientesRepetidos, ClientesSinRepetir).
 
 efectividad(Nivel) :-
-  encontrarSatisfechos(Satisfechos),
-  encontrarTodosLosClientes(Clientes),
+  satisfechos(Satisfechos),
+  todosLosClientes(Clientes),
   length(Satisfechos, CuantosSatisfechos),
   length(Clientes, CuantosClientes),
   Nivel is CuantosSatisfechos/CuantosClientes.
 
 esChica(Propiedad) :-
-  propiedad(Propiedad),
   tiene(Propiedad, ambientes(1)).
 
 esChica(Propiedad) :-
   propiedad(Propiedad),
   not(tiene(Propiedad, ambientes(_))).
 
-tieneAire(Propiedad) :-
-  propiedad(Propiedad),
-  tiene(Propiedad, instalaciones(Instalaciones)),
-  member(aireAcondicionado, Instalaciones).
-
 propiedadTop(Propiedad) :-
-  not(esChica(Propiedad)),
-  tieneAire(Propiedad).
+  cumpleConCaracteristica(Propiedad,instalaciones([aireAcondicionado])),
+  not(esChica(Propiedad)).
 
 propiedadesTop(PropiedadesTop) :-
   findall(Propiedad, propiedadTop(Propiedad), PropiedadesTopRepetidas),
@@ -134,11 +126,11 @@ encontrarSinRepetidos(ListaSinRepetir, Condicion) :-
   findall(Elemento, call(Condicion, Elemento), ListaRepetida),
   list_to_set(ListaRepetida, ListaSinRepetir).
 
-nuevoEncontrarSatisfechos(Satisfechos) :-
+nuevoSatisfechos(Satisfechos) :-
   encontrarSinRepetidos(Satisfechos, satisfecho).
 
-nuevoEncontrarTodosLosClientes(Clientes) :-
+nuevoTodosLosClientes(Clientes) :-
   encontrarSinRepetidos(Clientes, persona).
 
-nuevopropiedadesTop(PropiedadesTop) :-
+nuevoPropiedadesTop(PropiedadesTop) :-
   encontrarSinRepetidos(PropiedadesTop, propiedadTop).
